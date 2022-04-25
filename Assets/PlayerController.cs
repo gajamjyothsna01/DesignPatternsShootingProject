@@ -24,8 +24,10 @@ public class PlayerController : MonoBehaviour
     // public bool isGameWin = false;
     //public GameObject target;
     // public AudioClip audioClip;
-    public AudioSource audioSource;
-
+   // public AudioSource audioSource;
+    public GameObject bulletPrefab;
+    public Transform bulletPosition;
+    public float bulletSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,12 +53,21 @@ public class PlayerController : MonoBehaviour
              // animator.SetBool("isFiring", !animator.GetBool("isFiring"));
                 Debug.Log("Firing State");
                 animator.SetTrigger("isFiring");
-                Debug.Log("Player Hit Method");
-                Debug.Log("Ammo Firing" +ammo);
+                //GameObject temp = Instantiate(bulletPrefab, bulletPosition.transform.position, Quaternion.identity);
+                GameObject temp = PoolScript.instance.GetObjectsFromPool("Bullet");
+                if(temp!= null)
+                {
+                    temp.SetActive(true);
+                    rb = temp.GetComponent<Rigidbody>();
+                    rb.velocity = transform.forward * bulletSpeed;
+                    Debug.Log("Player Hit Method");
+                 }
+               
+               // Debug.Log("Ammo Firing" +ammo);
                 ammo--;
                 
                 //WhenPlayerHitEnemy();
-                audioSource.Play();
+                //audioSource.Play();
                
 
                // ammo = Mathf.Clamp(ammo - 10, 0, maxAmmo);
