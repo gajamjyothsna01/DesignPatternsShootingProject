@@ -31,14 +31,27 @@ public class GameStateManager : MonoBehaviour
     {
         currentState = currentState.Process();
     }
-
-    private void OnTriggerEnter(Collider other)
+    /*private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.tag == "Bullet")
+        if(collision.gameObject.tag == "Bullet")
         {
             currentState = new Death(this.gameObject, agent, animator, player);
         }
+
+                
+              
+    }*/
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("In to Trigger Function");
+        if (other.gameObject.tag == "Bullet")
+        {
+            Debug.Log("Got the Bullet");
+            currentState = new Death(this.gameObject, agent, animator, player);
+        }
     }
+    
 }
 public class State
 {
@@ -200,6 +213,9 @@ public class Attack : State
         animator.ResetTrigger("isShooting");
         base.Exit();
     }
+   
+
+    
 
 
 }
@@ -208,7 +224,7 @@ public class Death : State
     public Death(GameObject _npc, NavMeshAgent _agent, Animator _animator, Transform _playerPosition) : base(_npc, _agent, _animator, _playerPosition)
     {
         stateName = STATE.DEATH;
-        agent.enabled = false;
+       // agent.enabled = false;
 
     }
     public override void Enter()
