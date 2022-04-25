@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
                 GameObject temp = PoolScript.instance.GetObjectsFromPool("Bullet");
                 if(temp!= null)
                 {
+                temp.transform.position = bulletPosition.transform.position;
                     temp.SetActive(true);
                     rb = temp.GetComponent<Rigidbody>();
                     rb.velocity = transform.forward * bulletSpeed;
