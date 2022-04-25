@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     int ammo = 100;
     //int maxAmmo = 100;
    // public Transform bulletLaunchPosition;
-    //int health = 100;
+    public int health = 100;
     //int maxHealth = 100;
    
     // public SpriteRenderer sprite;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        animator.SetBool("isWalking", true);
+       // animator.SetBool("isWalking", true);
       
         /* if (Input.GetKeyDown(KeyCode.F))
          {
