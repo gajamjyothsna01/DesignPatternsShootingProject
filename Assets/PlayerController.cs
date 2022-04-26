@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     public float playerJumpForce;
     public float rotationSpeed;
+    public GameObject ballParticleEffect;
    // Quaternion playerRotataion, camRotation;
     public Camera cam;
    
@@ -57,15 +58,26 @@ public class PlayerController : MonoBehaviour
                 GameObject temp = PoolScript.instance.GetObjectsFromPool("Bullet");
                 if(temp!= null)
                 {
-                temp.transform.position = bulletPosition.transform.position;
+
+                    temp.transform.position = bulletPosition.transform.position;
+                     Instantiate(ballParticleEffect, temp.transform.position, Quaternion.identity);
                     temp.SetActive(true);
                     rb = temp.GetComponent<Rigidbody>();
                     rb.velocity = transform.forward * bulletSpeed;
                     Debug.Log("Player Hit Method");
                  }
-               
-               // Debug.Log("Ammo Firing" +ammo);
-                ammo--;
+
+
+
+            GameObject tempEnemy = PoolScript.instance.GetObjectsFromPool("Enemy");
+            tempEnemy.transform.position = new Vector3(UnityEngine.Random.Range(200f, 250f), 1.2f, UnityEngine.Random.Range(120f, 290f));
+            tempEnemy.SetActive(true);
+
+
+
+
+            // Debug.Log("Ammo Firing" +ammo);
+            ammo--;
                 
                 //WhenPlayerHitEnemy();
                 //audioSource.Play();
@@ -77,7 +89,11 @@ public class PlayerController : MonoBehaviour
 
 
         }
-      
+
+
+
+
+
     }
 
    

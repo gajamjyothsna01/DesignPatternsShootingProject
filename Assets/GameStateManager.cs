@@ -6,11 +6,12 @@ public class GameStateManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static GameStateManager instance;
-
+    public GameObject enemuyDeathEffect;
     NavMeshAgent agent;
     Animator animator;
     public Transform player;
     public State currentState;
+    float time = 10f;
     private void Awake()
     {
         if (instance == null)
@@ -48,7 +49,17 @@ public class GameStateManager : MonoBehaviour
         if (other.gameObject.tag == "Bullet")
         {
             Debug.Log("Got the Bullet");
+          
             currentState = new Death(this.gameObject, agent, animator, player);
+            Instantiate(enemuyDeathEffect, transform.position, Quaternion.identity);
+            if (time > 5f)
+            {
+                time  = time + Time.deltaTime;
+                this.gameObject.SetActive(false);
+                time = 0f;
+            }
+            
+            
         }
     }
     
@@ -221,21 +232,31 @@ public class Attack : State
 }
 public class Death : State
 {
+
+    public float time;
     public Death(GameObject _npc, NavMeshAgent _agent, Animator _animator, Transform _playerPosition) : base(_npc, _agent, _animator, _playerPosition)
     {
         stateName = STATE.DEATH;
-       // agent.enabled = false;
+        agent.enabled = false;
 
     }
     public override void Enter()
     {
         animator.SetTrigger("isSleeping");
+        
         base.Enter();
 
     }
     public override void Update()
     {
+        if(time > 3f)
+        {
+            nextState = new Idle(nPC, agent, animator, playerPosition);
+            eventStage = EVENTS.EXIT;
 
+        }
+        base.Update();
+        
 
     }
     public override void Exit()
